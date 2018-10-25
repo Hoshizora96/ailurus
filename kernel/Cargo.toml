@@ -1,0 +1,23 @@
+[package]
+name = "kernel"
+version = "0.1.0"
+authors = ["Hoshizora <nebelinsel404@gmail.com>"]
+edition = "2018"
+
+[lib]
+name = "kernel"
+path = "src/lib.rs"
+crate-type = ["staticlib"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
+[dependencies]
+spin = "0.4.9"
+
+[dependencies.lazy_static]
+version = "1.1.0"
+features = ["spin_no_std"]
