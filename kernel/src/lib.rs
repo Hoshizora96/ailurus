@@ -9,6 +9,7 @@ use core::panic::PanicInfo;
 #[macro_use]
 mod vga_buffer;
 mod memory;
+mod segmentation;
 
 /// This function is called on panic.
 #[panic_handler]
