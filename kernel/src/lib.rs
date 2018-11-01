@@ -1,6 +1,8 @@
 #![no_std]
 #![feature(asm)]
-#![feature(abi_x86_interrupt)]
+#![feature(min_const_fn)]
+#![feature(naked_functions)]
+
 
 #[macro_use]
 extern crate lazy_static;
@@ -10,8 +12,7 @@ use core::panic::PanicInfo;
 #[macro_use]
 mod vga_buffer;
 mod memory;
-mod segmentation;
-mod interrupt;
+mod arch;
 
 /// This function is called on panic.
 #[panic_handler]
@@ -22,9 +23,7 @@ fn panic(info: &PanicInfo) -> ! {
 
 #[no_mangle]
 pub extern fn kmain() -> ! {
-    let mut idt = interrupt::Idt::new();
-    idt.set_handler_fn(0x0, divide_by_zero_handler);
-    idt.load();
+    arch::interrupt::init_idt();
 
     vga_buffer::WRITER.lock().clear_screen();
     println!("Started Rika-OS successfully!");
@@ -37,11 +36,6 @@ pub extern fn kmain() -> ! {
     divide_by_zero();
     panic!("It should panic here!");
 
-    loop {}
-}
-
-extern "x86-interrupt" fn divide_by_zero_handler(test: &mut interrupt::ExceptionStackFrame) {
-    println!("EXCEPTION: DIVIDE BY ZERO");
     loop {}
 }
 
