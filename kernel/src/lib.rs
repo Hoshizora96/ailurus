@@ -1,6 +1,7 @@
 #![no_std]
 #![feature(asm)]
 #![feature(min_const_fn)]
+#![feature(const_fn)]
 #![feature(naked_functions)]
 
 
