@@ -1,6 +1,5 @@
 #[allow(dead_code)]
 
-extern crate spin;
 use spin::Mutex;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -177,7 +176,7 @@ lazy_static! {
 }
 
 macro_rules! print {
-    ($($arg:tt)*) => ($crate::vga_buffer::print(format_args!($($arg)*)));
+    ($($arg:tt)*) => ($crate::arch::x86_64::device::vga_buffer::print(format_args!($($arg)*)));
 }
 
 macro_rules! println {
