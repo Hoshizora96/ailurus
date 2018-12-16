@@ -1,4 +1,4 @@
-use super::super::segmentation::{SegmentSelector, PrivilegeLevel, get_cs};
+use super::super::platform::segmentation::{SegmentSelector, PrivilegeLevel, get_cs};
 use super::handler;
 
 pub const INT_COUNT: usize = 256;
