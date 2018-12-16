@@ -27,6 +27,8 @@ fn panic(info: &PanicInfo) -> ! {
 #[no_mangle]
 pub extern fn kmain() -> ! {
     arch::interrupt::init_idt();
+    unsafe { arch::device::init_pics(); arch::platform::instructions::sti();}
+    
 
     arch::device::vga_buffer::WRITER.lock().clear_screen();
     println!("Started Rika-OS successfully!");
@@ -36,7 +38,7 @@ pub extern fn kmain() -> ! {
         tag.start_address(), tag.end_address(), tag.memory_type())
     }
 
-    divide_by_zero();
+    // divide_by_zero();
     panic!("It should panic here!");
 
     loop {}

@@ -1,5 +1,5 @@
 use spin::Mutex;
-use super::super::platform::UnsafePort;
+use super::super::platform::port::UnsafePort;
 
 const CMD_INIT: u8 = 0x11;
 const CMD_END_OF_INTERRUPT: u8 = 0x20;
