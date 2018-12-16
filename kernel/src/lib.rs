@@ -17,6 +17,8 @@ mod memory;
 #[macro_use]
 mod arch;
 
+pub use self::arch::kstart;
+
 /// This function is called on panic.
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
@@ -24,13 +26,7 @@ fn panic(info: &PanicInfo) -> ! {
     loop{}
 }
 
-#[no_mangle]
-pub extern fn kmain() -> ! {
-    arch::interrupt::init_idt();
-    unsafe { arch::device::init_pics(); arch::platform::instructions::sti();}
-    
-
-    arch::device::vga_buffer::WRITER.lock().clear_screen();
+pub fn kmain() -> ! {
     println!("Started Rika-OS successfully!");
     println!("{:<20}{:<20}{:<20}", "Start Address", "End Address", "Memory Type");
     for tag in memory::iterate_memory_map(0x500) {

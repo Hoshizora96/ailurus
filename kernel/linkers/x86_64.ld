@@ -1,4 +1,4 @@
-ENTRY(kmain)
+ENTRY(kstart)
 OUTPUT_FORMAT(elf64-x86-64)
 
 KERNEL_OFFSET = 0xffffff0000100000;
