@@ -22,7 +22,10 @@ pub extern fn kstart(kernel_args: &KernelArgs) {
     interrupt::init_idt();
     unsafe { platform::instructions::sti();}
     
-
     device::vga_buffer::WRITER.lock().clear_screen();
+    
+    println!("APIC support: {}", device::cpu::has_apic());
+    println!("Vendor: {}", device::cpu::get_vendor_info().as_string());
+
     super::super::kmain();
 }

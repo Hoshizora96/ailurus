@@ -12,6 +12,34 @@ pub unsafe fn hlt() {
     asm!("hlt"::::"volatile");
 }
 
+// It will fail to execute when CPU does not support `cpuid`, so this function is unsafe.
+pub unsafe fn cpuid(eax: u32) -> (u32, u32, u32) {
+    let ebx: u32;
+    let ecx: u32;
+    let edx: u32;
+    asm!("cpuid"
+        : "={ebx}"(ebx), "={ecx}"(ecx), "={edx}"(edx)
+        : "{eax}"(eax)
+        ::"volatile", "intel");
+    (ebx, ecx, edx)
+}
+
+// It works when CPUID.01H:EDX[5]=1
+pub unsafe fn rdmsr(ecx: u32) -> (u32, u32) {
+    let eax: u32;
+    let edx: u32;
+    asm!("rdmsr"
+        : "={eax}"(eax), "={edx}"(edx)
+        : "{ecx}"(ecx)
+        ::"volatile", "intel");
+    (eax, edx)
+}
+
+pub unsafe fn wrmsr(eax: u32, edx: u32, ecx: u32) {
+    asm!("wrmsr"
+        :: "{ecx}"(ecx),"{eax}"(eax), "{edx}"(edx)
+        ::"volatile", "intel");
+}
 
 // Instructions for port io
 pub unsafe fn inb(port: u16) -> u8 {
