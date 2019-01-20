@@ -12,8 +12,6 @@ extern crate spin;
 
 use core::panic::PanicInfo;
 
-mod memory;
-
 #[macro_use]
 mod arch;
 
@@ -28,11 +26,8 @@ fn panic(info: &PanicInfo) -> ! {
 
 pub fn kmain() -> ! {
     println!("Started Rika-OS successfully!");
-    println!("{:<20}{:<20}{:<20}", "Start Address", "End Address", "Memory Type");
-    for tag in memory::iterate_memory_map(0x500) {
-        println!("0x{:0>16x}  0x{:0>16x}  {:?}",
-        tag.start_address(), tag.end_address(), tag.memory_type())
-    }
+
+    print_memory_map();
 
     // divide_by_zero();
     panic!("It should panic here!");
@@ -44,4 +39,16 @@ fn divide_by_zero() {
     unsafe {
         asm!("mov dx, 0; div dx" ::: "ax", "dx" : "volatile", "intel")
     }
+}
+
+fn print_memory_map() {
+    println!("Memory map:");
+    println!("{:<20}{:<20}{:<20}", "Start Address", "Size", "Memory Type");
+    for tag in arch::memory::layout::all_memory_area() {
+        println!("0x{:0>16X}  0x{:0>16X}  {:?}",
+                 tag.base_address.as_u64(), tag.size, tag.mem_type)
+    }
+
+    let mut total_mem_size = arch::memory::layout::physical_memory_size();
+    println!("Total memory size: {}MB", total_mem_size / 1024 / 1024)
 }

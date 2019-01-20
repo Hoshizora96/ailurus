@@ -20,6 +20,7 @@ pub struct KernelArgs {
 pub extern fn kstart(kernel_args: &KernelArgs) {
     device::init_devices(); 
     interrupt::init_idt();
+    memory::init_memory();
     unsafe { platform::instructions::sti();}
     
     device::vga_buffer::WRITER.lock().clear_screen();
