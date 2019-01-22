@@ -25,7 +25,7 @@ fn panic(info: &PanicInfo) -> ! {
 }
 
 pub fn kmain() -> ! {
-    println!("Started Rika-OS successfully!");
+    println!("Started Ailurus-OS successfully!");
 
     print_memory_map();
 
