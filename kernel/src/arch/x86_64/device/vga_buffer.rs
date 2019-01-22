@@ -187,5 +187,8 @@ macro_rules! println {
 
 pub fn print(args: fmt::Arguments) {
     use core::fmt::Write;
-    WRITER.lock().write_fmt(args).unwrap();
+    use super::super::interrupt;
+    interrupt::run_without_interrupt(|| {
+        WRITER.lock().write_fmt(args).unwrap();
+    })
 }

@@ -20,3 +20,12 @@ pub fn init_idt() {
         lidt(&ptr);
     }
 }
+
+pub fn run_without_interrupt<F>(p: F) where F: Fn() {
+    use super::platform::instructions;
+    unsafe {
+        instructions::cli();
+        p();
+        instructions::sti();
+    }
+}
