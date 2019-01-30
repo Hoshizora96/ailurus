@@ -52,6 +52,24 @@ impl VirtAddr {
         where U: Into<u64> {
         self.align_down(align) == *self
     }
+
+    pub fn p4_index(&self) -> usize {
+        ((self.0 >> 39) & 0o777) as usize
+    }
+
+    pub fn p3_index(&self) -> usize {
+        ((self.0 >> 30) & 0o777) as usize
+    }
+    pub fn p2_index(&self) -> usize {
+        ((self.0 >> 21) & 0o777) as usize
+    }
+    pub fn p1_index(&self) -> usize {
+        ((self.0 >> 12) & 0o777) as usize
+    }
+
+    pub fn page_offset(&self) -> usize {
+        (self.0 & 0o7777) as usize
+    }
 }
 
 fn align_down(address: u64, align: u64) -> u64 {

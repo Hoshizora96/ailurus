@@ -10,6 +10,9 @@ extern crate lazy_static;
 
 extern crate spin;
 
+#[macro_use]
+extern crate bitflags;
+
 use core::panic::PanicInfo;
 
 #[macro_use]
