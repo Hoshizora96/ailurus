@@ -1,7 +1,7 @@
 pub mod address;
 pub mod layout;
 pub mod page_table;
-
+pub mod allocator;
 pub use self::address::{PhysAddr, VirtAddr};
 
 pub fn init_memory() {
